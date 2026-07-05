@@ -1,4 +1,5 @@
 const http = require("http");
+const fs = require("fs");
 
 // const server = http.createServer((req, res) => {
 //     console.log(req);
@@ -24,6 +25,12 @@ http.createServer((req, res) => {
         res.write("<head><title>Product</title></head>");
         res.write("<body><h1>Product - 1</h1></body>");
         res.write("</html>");
+        return res.end();
+    }
+    else if (req.url === "/redirect") {
+        fs.writeFileSync("redirect.txt", "DATA...");
+        res.statusCode = 302;
+        res.setHeader("Location", "/home");
         return res.end();
     }
     res.setHeader("Content-Type", "text/html");
