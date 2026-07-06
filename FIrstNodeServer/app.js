@@ -60,10 +60,13 @@ http.createServer((req, res) => {
             const fullBody = Buffer.concat(body).toString();
             console.log(fullBody);
             const params = new URLSearchParams(fullBody);
-            const bodyObject = {};
-            for (const [key, value] of params.entries()) {
-                bodyObject[key] = value;
-            }
+            // const bodyObject = {};
+            // for (const [key, value] of params.entries()) {
+            //     bodyObject[key] = value;
+            // }
+
+            // Another way of converting pairs into plain JavaScript objects.
+            const bodyObject = Object.fromEntries(params);
             console.log(bodyObject);
         });
         res.statusCode = 302;
