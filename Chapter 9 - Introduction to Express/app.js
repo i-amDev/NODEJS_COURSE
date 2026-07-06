@@ -1,5 +1,5 @@
 // Core Modules
-const http = require('http');
+// const http = require('http');
 
 // External Modules
 const express = require('express');
@@ -20,8 +20,8 @@ app.use((req,res,next) => {
     res.send("<h1>Hello from middleware!</h1>");
 });
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
-server.listen(3000, () => {
+app.listen(3000, () => {
     console.log("Server started on port 3000");
 });
