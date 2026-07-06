@@ -59,7 +59,13 @@ http.createServer((req, res) => {
         req.on("end", () => {
             const fullBody = Buffer.concat(body).toString();
             console.log(fullBody);
-        })
+            const params = new URLSearchParams(fullBody);
+            const bodyObject = {};
+            for (const [key, value] of params.entries()) {
+                bodyObject[key] = value;
+            }
+            console.log(bodyObject);
+        });
         res.statusCode = 302;
         res.setHeader('Location', '/data');
     }
