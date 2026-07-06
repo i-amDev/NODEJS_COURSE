@@ -51,9 +51,15 @@ http.createServer((req, res) => {
         return res.end();
     }
     else if (req.url.toLowerCase() === "/submit-details" && req.method === "POST") {
+        const body = [];
         req.on("data", (chunk) => {
             console.log(chunk);
+            body.push(chunk);
         });
+        req.on("end", () => {
+            const fullBody = Buffer.concat(body).toString();
+            console.log(fullBody);
+        })
         res.statusCode = 302;
         res.setHeader('Location', '/data');
     }
