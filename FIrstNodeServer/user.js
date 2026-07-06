@@ -1,4 +1,3 @@
-const http = require("http");
 const fs = require("fs");
 
 // const server = http.createServer((req, res) => {
@@ -9,7 +8,7 @@ const fs = require("fs");
 //     console.log("Server started on port 3000");
 // });
 
-http.createServer((req, res) => {
+const requestHandler = (req, res) => {
     console.log(req.url, req.method);
     if (req.url === "/home") {
         res.setHeader("Content-Type", "text/html");
@@ -79,6 +78,6 @@ http.createServer((req, res) => {
     res.write("<body><h1>Welcome to NodeJS</h1></body>");
     res.write("</html>");
     res.end();
-}).listen(3000, () => {
-    console.log("Server started on port 3000");
-});
+};
+
+module.exports = requestHandler;
