@@ -1,5 +1,6 @@
 // External Module
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -21,10 +22,12 @@ app.use((req, res, next) => {
 app.get("/", (req, res, next) => {
     console.log("Handling / for GET", req.url, req.method);
     res.send(`<h1>Welcome to third middleware</h1>`);
-})
+});
+
+app.use(bodyParser.urlencoded());
 
 app.get("/contact-us", (req, res, next) => {
-    console.log("Handling /contact-us for GET", req.url, req.method);
+    console.log("Handling /contact-us for GET", req.url, req.method, req.body);
     res.send(
         `<h1>Please give your details here</h1>
     <form action="/contact-us" method="POST">
