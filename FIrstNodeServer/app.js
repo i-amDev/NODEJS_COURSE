@@ -68,6 +68,7 @@ http.createServer((req, res) => {
             // Another way of converting pairs into plain JavaScript objects.
             const bodyObject = Object.fromEntries(params);
             console.log(bodyObject);
+            fs.writeFileSync("user.txt", JSON.stringify(bodyObject));
         });
         res.statusCode = 302;
         res.setHeader('Location', '/data');
