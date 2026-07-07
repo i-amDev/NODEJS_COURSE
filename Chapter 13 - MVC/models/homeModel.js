@@ -1,3 +1,7 @@
+// Core Modules
+const fs = require('fs');
+const path = require('path');
+
 const registeredHomes = [];
 
 module.exports = class Home {
@@ -11,6 +15,11 @@ module.exports = class Home {
 
     save() {
         registeredHomes.push(this);
+        const p = path.dirname(require.main.filename);
+        const homePath = path.join(p, "data", "homeDetails.json")
+        fs.writeFile(homePath, JSON.stringify(registeredHomes), (err) => {
+            console.log("File writing concluded", err);
+        });
     }
 
     static fetchAll() {
