@@ -15,9 +15,9 @@ exports.postAddHome = (req,res,next) => {
 };
 
 exports.getHomes = (req,res,next) => {
-    const registeredHomes = Home.fetchAll();
+    Home.fetchAll((registeredHomes) => res.render("home", {registeredHomes: registeredHomes}));
     console.log(req.url, req.method);
-    console.log(registeredHomes);
+    // console.log(registeredHomes);
     // res.sendFile(path.join(__dirname, "../", "views", "home.ejs"));
-    res.render("home", {registeredHomes: registeredHomes});
+
 };
