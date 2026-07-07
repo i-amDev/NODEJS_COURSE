@@ -2,8 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 
-let registeredHomes = [];
-
 module.exports = class Home {
     constructor(houseName, price, location, rating, photoUrl) {
         this.houseName = houseName;
@@ -14,12 +12,14 @@ module.exports = class Home {
     }
 
     save() {
-        registeredHomes.push(this);
-        const p = path.dirname(require.main.filename);
-        const homePath = path.join(p, "data", "homeDetails.json")
-        fs.writeFile(homePath, JSON.stringify(registeredHomes), (err) => {
-            console.log("File writing concluded", err);
-        });
+        Home.fetchAll((registeredHomes) => {
+            registeredHomes.push(this);
+            const p = path.dirname(require.main.filename);
+            const homePath = path.join(p, "data", "homeDetails.json")
+            fs.writeFile(homePath, JSON.stringify(registeredHomes), (err) => {
+                console.log("File writing concluded", err);
+            });
+        })
     }
 
     static fetchAll(callback) {
