@@ -1,6 +1,3 @@
-// Core Modules
-const path = require("path");
-
 // External Modules
 const express = require('express');
 
@@ -11,15 +8,8 @@ const hostRouter = express.Router();
 
 hostRouter.get("/add-home", homeController.getAddHome);
 
-const registeredHomes = [];
-
-hostRouter.post("/add-home", (req,res,next) => {
-    console.log("Home registration successful for : ", req.body, req.body.houseName);
-    registeredHomes.push({houseName : req.body.houseName});
-    res.sendFile(path.join(__dirname, "../", "views", "homeAdded.html"));
-});
+hostRouter.post("/add-home", homeController.postAddHome);
 
 module.exports = {
     hostRouter,
-    registeredHomes,
 };
