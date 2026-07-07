@@ -36,3 +36,12 @@ exports.getFavouriteList = (req, res, next) => {
     })
   );
 };
+
+exports.getHomeDetails = (req, res, next) => {
+    const homeId = req.params.homeId;
+    console.log(homeId);
+    res.render("store/home-detail", {
+        pageTitle: "Home Details",
+        currentPage: "Home",
+    });
+};
