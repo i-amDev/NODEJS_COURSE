@@ -11,4 +11,9 @@ exports.postAddHome = (req,res,next) => {
     res.sendFile(path.join(__dirname, "../", "views", "homeAdded.html"));
 };
 
-exports.registeredHomes = registeredHomes;
+exports.getHomes = (req,res,next) => {
+    console.log(req.url, req.method);
+    console.log(registeredHomes);
+    // res.sendFile(path.join(__dirname, "../", "views", "home.ejs"));
+    res.render("home", {registeredHomes: registeredHomes});
+};
