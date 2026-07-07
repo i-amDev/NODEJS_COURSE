@@ -4,11 +4,12 @@ const path = require("path");
 // External Modules
 const express = require('express');
 
+// Local Modules
+const homeController = require("../controllers/homeController");
+
 const hostRouter = express.Router();
 
-hostRouter.get("/add-home", (req,res,next) => {
-    res.sendFile(path.join(__dirname, "../", "views", "addHome.html"));
-});
+hostRouter.get("/add-home", homeController.getAddHome);
 
 const registeredHomes = [];
 
