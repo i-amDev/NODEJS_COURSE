@@ -25,7 +25,7 @@ module.exports = class Home {
           description: this.description,
       };
       if (this._id) {
-          db.collection("homes").updateOne({_id: new ObjectId(String(this._id))}, {$set: updateFields});
+          return db.collection("homes").updateOne({_id: new ObjectId(String(this._id))}, {$set: updateFields});
       }
       else {
           return db.collection("homes").insertOne(this);
