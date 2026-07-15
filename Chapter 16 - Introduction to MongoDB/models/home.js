@@ -16,7 +16,20 @@ module.exports = class Home {
 
   save() {
       const db = getDB();
-      return db.collection("homes").insertOne(this);
+      const updateFields = {
+          houseName: this.houseName,
+          price: this.price,
+          location: this.location,
+          rating: this.rating,
+          photoUrl: this.photoUrl,
+          description: this.description,
+      };
+      if (this._id) {
+          db.collection("homes").updateOne({_id: new ObjectId(String(this._id))}, {$set: updateFields});
+      }
+      else {
+          return db.collection("homes").insertOne(this);
+      }
   }
 
   static fetchAll() {
