@@ -29,8 +29,8 @@ exports.getBookings = (req, res, next) => {
 };
 
 exports.getFavouriteList = (req, res, next) => {
-  Favourite.getFavourites().then(favourites => {
-      favourites = favourites.map(fav => fav.houseId);
+  Favourite.find().then(favourites => {
+      favourites = favourites.map(fav => fav.houseId.toString());
     Home.find().then(registeredHomes => {
       const favouriteHomes = registeredHomes.filter(home => favourites.includes(home._id.toString()));
       res.render("store/favourite-list", {
