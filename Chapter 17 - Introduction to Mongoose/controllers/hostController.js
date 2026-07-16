@@ -50,11 +50,22 @@ exports.postAddHome = (req, res, next) => {
 
 exports.postEditHome = (req, res, next) => {
   const { id, houseName, price, location, rating, photoUrl, description } = req.body;
-  const home = new Home(houseName, price, location, rating, photoUrl, description, id);
-  home.save().then(result => {
-      console.log("Home updated", result);
+  Home.findById(id).then(home => {
+      home.houseName = houseName;
+      home.price = price;
+      home.location = location;
+      home.rating = rating;
+      home.description = description;
+      home.photoUrl = photoUrl;
+      home.save().then(result => {
+          console.log("Home updated", result);
+      }).catch(err => {
+          console.log("Error while updating", err);
+      })
+      res.redirect("/host/host-home-list");
+  }).catch(err => {
+      console.log("Error while finding home", err);
   });
-  res.redirect("/host/host-home-list");
 };
 
 exports.postDeleteHome = (req, res, next) => {
