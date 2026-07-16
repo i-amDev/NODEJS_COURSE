@@ -44,19 +44,25 @@ exports.getFavouriteList = (req, res, next) => {
 
 exports.postAddToFavourite = (req, res, next) => {
     const homeId = req.body.id;
-    const fav = new Favourite(homeId);
-    fav.save().then(result => {
-        console.log("Fav added", result);
-    }).catch(err => {
-        console.log("Error while marking favourite", err);
-    }).finally(() => {
+    Favourite.findOne({houseId: homeId}).then(fav => {
+        if (fav) {
+            console.log("Already marked as favourite");
+        }
+        else {
+            fav = new Favourite({houseId: homeId});
+            fav.save().then((result) => {
+                console.log("Fav added", result);
+            });
+        }
         res.redirect("/favourites");
+    }).catch(error => {
+        console.log("Error while marking favourite", error);
     });
 }
 
 exports.postRemoveFromFavourite = (req, res, next) => {
   const homeId = req.params.homeId;
-  Favourite.deleteById(homeId).then(result => {
+  Favourite.findOneAndDelete({houseId: homeId}).then(result => {
       console.log("Fav removed", result);
   }).catch(err => {
       console.log("Error while removing favourite", err);
