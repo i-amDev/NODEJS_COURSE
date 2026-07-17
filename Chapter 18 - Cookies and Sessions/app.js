@@ -4,6 +4,7 @@ const path = require('path');
 // External Module
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require('express-session');
 
 //Local Module
 const storeRouter = require("./routes/storeRouter")
@@ -18,9 +19,14 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(express.urlencoded());
+app.use(session({
+    secret: "Session Secret Key",
+    resave: false,
+    saveUninitialized: true,
+}));
 app.use((req,res,next) => {
-    console.log("Cookie middleware");
-    req.isLoggedIn = req.get("Cookie") ? req.get("Cookie").split("=")[1] === "true" : false;
+    // console.log("Cookie middleware");
+    req.isLoggedIn = req.session.isLoggedIn;
     next();
 });
 app.use(authRouter);
