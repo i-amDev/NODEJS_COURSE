@@ -109,10 +109,36 @@ exports.postSignup = [
     }
 ]
 
-exports.postLogin = (req, res, next) => {
-    console.log(req.body);
-    // res.cookie("isLoggedIn", true);
+exports.postLogin = async (req, res, next) => {
+    const {email, password} = req.body;
+    const user = await User.findOne({email});
+    if (!user) {
+        return res.status(422).render("auth/login", {
+            pageTitle: "Login",
+            currentPage: "login",
+            isLoggedIn: false,
+            errors: ["User does not exist"],
+            oldInput: {email},
+            user: {},
+        });
+    }
+
+    // const isMatch = await bcrypt.compare(password, user.password);
+    // if (!isMatch) {
+    //     return res.status(422).render("auth/login", {
+    //         pageTitle: "Login",
+    //         currentPage: "login",
+    //         isLoggedIn: false,
+    //         errors: ["Invalid Password"],
+    //         oldInput: {email},
+    //         user: {},
+    //     });
+    // }
+
     req.session.isLoggedIn = true;
+    // req.session.user = user;
+    // await req.session.save();
+
     res.redirect("/");
 };
 
