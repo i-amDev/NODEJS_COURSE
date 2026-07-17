@@ -5,6 +5,7 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 //Local Module
 const storeRouter = require("./routes/storeRouter")
@@ -12,17 +13,24 @@ const hostRouter = require("./routes/hostRouter")
 const authRouter = require("./routes/authRouter")
 const rootDir = require("./utils/pathUtil");
 const errorsController = require("./controllers/errors");
+const MONGO_URL = "mongodb://127.0.0.1:27017/airbnb";
 
 const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+const store = new MongoDBStore({
+    uri: MONGO_URL,
+    collection: 'sessions',
+});
+
 app.use(express.urlencoded());
 app.use(session({
     secret: "Session Secret Key",
     resave: false,
     saveUninitialized: true,
+    store: store,
 }));
 app.use((req,res,next) => {
     // console.log("Cookie middleware");
@@ -46,7 +54,6 @@ app.use(express.static(path.join(rootDir, 'public')))
 app.use(errorsController.pageNotFound);
 
 const PORT = 3000;
-const MONGO_URL = "mongodb://127.0.0.1:27017/airbnb";
 mongoose.connect(MONGO_URL).then(() => {
     console.log("MongoDB Connected");
     app.listen(PORT, () => {
