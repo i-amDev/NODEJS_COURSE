@@ -1,4 +1,5 @@
 const {check, validationResult} = require("express-validator");
+const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
 exports.getLogin = (req, res, next) => {
@@ -88,37 +89,23 @@ exports.postSignup = [
             });
         }
 
-        const user = new User({firstName, lastName, email, password});
-        user.save().then(() => {
-            res.redirect("/login");
-        }).catch(error => {
+        bcrypt.hash(password, 12)
+            .then(hashedPassword => {
+                const user = new User({firstName, lastName, email, password: hashedPassword});
+                return user.save();
+            })
+            .then(() => {
+                res.redirect("/login");
+            }).catch(err => {
             return res.status(422).render("auth/signup", {
                 pageTitle: "Signup",
                 currentPage: "signup",
                 isLoggedIn: false,
-                errors: [error.message],
-                oldInput: {firstName, lastName, email, password},
-                // user: {},
+                errors: [err.message],
+                oldInput: {firstName, lastName, email, userType},
+                user: {},
             });
-        })
-    //
-    //     bcrypt.hash(password, 12)
-    //         .then(hashedPassword => {
-    //             const user = new User({firstName, lastName, email, password: hashedPassword, userType});
-    //             return user.save();
-    //         })
-    //         .then(() => {
-    //             res.redirect("/login");
-    //         }).catch(err => {
-    //         return res.status(422).render("auth/signup", {
-    //             pageTitle: "Signup",
-    //             currentPage: "signup",
-    //             isLoggedIn: false,
-    //             errors: [err.message],
-    //             oldInput: {firstName, lastName, email, userType},
-    //             user: {},
-    //         });
-    //     });
+        });
     }
 ]
 
