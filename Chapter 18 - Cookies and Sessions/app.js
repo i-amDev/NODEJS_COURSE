@@ -18,6 +18,11 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(express.urlencoded());
+app.use((req,res,next) => {
+    console.log("Cookie middleware");
+    req.isLoggedIn = req.get("Cookie") ? req.get("Cookie").split("=")[1] === "true" : false;
+    next();
+});
 app.use(authRouter);
 app.use(storeRouter);
 app.use("/host", (req, res, next) => {
