@@ -18,3 +18,11 @@ exports.deleteTodoItem = async (req, res, next) => {
     await TodoItem.findByIdAndDelete(id);
     res.status(204).json({_id: id});
 }
+
+exports.markCompleted = async (req, res, next) => {
+    const { id } = req.params;
+    const todoItem = await TodoItem.findById(id);
+    todoItem.completed = true;
+    await todoItem.save();
+    res.json(todoItem);
+}
