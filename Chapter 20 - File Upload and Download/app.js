@@ -61,6 +61,7 @@ app.use(multer(multerOptions).single("photoUrl"));
 app.use(express.static(path.join(rootDir, 'public')));
 app.use("/uploads", express.static(path.join(rootDir, 'uploads')));
 app.use("/host/uploads", express.static(path.join(rootDir, 'uploads')));
+app.use("/homes/uploads", express.static(path.join(rootDir, 'uploads')));
 
 app.use(session({
   secret: "KnowledgeGate AI with Complete Coding",
