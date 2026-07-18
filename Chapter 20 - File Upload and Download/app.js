@@ -5,6 +5,7 @@ const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const multer = require('multer');
 const DB_PATH = "mongodb://127.0.0.1:27017/airbnb";
 
 //Local Module
@@ -26,6 +27,9 @@ const store = new MongoDBStore({
 });
 
 app.use(express.urlencoded());
+app.use(multer().single("photoUrl"));
+app.use(express.static(path.join(rootDir, 'public')));
+
 app.use(session({
   secret: "KnowledgeGate AI with Complete Coding",
   resave: false,
@@ -48,8 +52,6 @@ app.use("/host", (req, res, next) => {
   }
 });
 app.use("/host", hostRouter);
-
-app.use(express.static(path.join(rootDir, 'public')))
 
 app.use(errorsController.pageNotFound);
 
