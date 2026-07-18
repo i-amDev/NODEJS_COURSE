@@ -3,7 +3,9 @@ const path = require('path');
 
 // External Module
 const express = require('express');
-const DB_PATH = "mongodb://127.0.0.1:27017/airbnb";
+const cors = require('cors');
+const DB_PATH = "mongodb://127.0.0.1:27017/todo";
+const todoItemRouter = require("./routes/todoItemsRouter")
 
 //Local Module
 const rootDir = require("./utils/pathUtil");
@@ -14,6 +16,9 @@ const app = express();
 
 app.use(express.urlencoded());
 app.use(express.static(path.join(rootDir, 'public')));
+app.use(cors());
+app.use(express.json());
+app.use("/api/todo", todoItemRouter);
 app.use(errorsController.pageNotFound);
 
 const PORT = 3000;
