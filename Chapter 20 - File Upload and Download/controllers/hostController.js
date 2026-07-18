@@ -1,4 +1,5 @@
 const Home = require("../models/home");
+const fs = require("fs");
 
 exports.getAddHome = (req, res, next) => {
   res.render("host/edit-home", {
@@ -79,9 +80,15 @@ exports.postEditHome = (req, res, next) => {
     // home.photoUrl = photoUrl;
     home.description = description;
 
-    if (req.file) {
-        home.photoUrl = req.file.path;
-    }
+      if (req.file) {
+          fs.unlink(home.photoUrl, (err) => {
+              if (err) {
+                  console.log("Error while deleting file ", err);
+              }
+          });
+          home.photo = req.file.path;
+      }
+
     home.save().then((result) => {
       console.log("Home updated ", result);
     }).catch(err => {
