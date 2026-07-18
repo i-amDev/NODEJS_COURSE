@@ -12,3 +12,9 @@ exports.getTodoItems = async (req, res, next) => {
     const todoItems = await TodoItem.find();
     res.json(todoItems);
 }
+
+exports.deleteTodoItem = async (req, res, next) => {
+    const { id } = req.params;
+    await TodoItem.findByIdAndDelete(id);
+    res.status(204).json({_id: id});
+}
