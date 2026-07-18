@@ -6,7 +6,7 @@ const todoItemsRouter = express.Router();
 const todoItemsController = require("../controllers/todoItemsController");
 
 todoItemsRouter.post("/", todoItemsController.createTodoItem);
-// todoItemsRouter.get("/", todoItemsController.getTodoItems);
+todoItemsRouter.get("/", todoItemsController.getTodoItems);
 // todoItemsRouter.delete("/:id", todoItemsController.deleteTodoItem);
 // todoItemsRouter.put("/:id/completed", todoItemsController.markCompleted);
 

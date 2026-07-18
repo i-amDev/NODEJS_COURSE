@@ -7,3 +7,8 @@ exports.createTodoItem = async (req, res, next) => {
     await todoItem.save();
     res.status(201).json(todoItem);
 }
+
+exports.getTodoItems = async (req, res, next) => {
+    const todoItems = await TodoItem.find();
+    res.json(todoItems);
+}
